@@ -58,10 +58,14 @@ var secretEvents = {
     action_events: {
         "click .secret_edit": function (e, value, row, index) {
             // apiActions.run(row.id, row.name)
-            console.debug('Edit the secret, row: ', row)
-            e.stopPropagation();
-            const vm = vueVm.registered_components.secret
-            vm.openUpdateModal(row.name);
+            if (row["name"] == "auth_token") {
+                showNotify('ERROR', 'Modifying Auth Token is not available');
+            } else {
+                console.debug('Edit the secret, row: ', row)
+                e.stopPropagation();
+                const vm = vueVm.registered_components.secret
+                vm.openUpdateModal(row.name);
+            }
         },
         "click .secret_hide": function (e, value, row, index) {
             console.debug('Hide the secret, row: ', row)
@@ -70,10 +74,14 @@ var secretEvents = {
             vm.openConfirmHide(row.name);
         },
         "click .secret_delete": function (e, value, row, index) {
-            console.debug('Delete the secret, row: ', row)
-            e.stopPropagation();
-            const vm = vueVm.registered_components.secret
-            vm.openConfirmDelete('single', row.name);
+            if (row["name"] == "auth_token") {
+                showNotify('ERROR', 'Deleting Auth Token is not available');
+            } else {
+                console.debug('Delete the secret, row: ', row)
+                e.stopPropagation();
+                const vm = vueVm.registered_components.secret
+                vm.openConfirmDelete('single', row.name);
+            }
         },
         "click .secret_view": async function (e, value, row, index) {
             console.debug('View the secret for row: ', row)
